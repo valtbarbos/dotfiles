@@ -1,3 +1,38 @@
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+# https://medium.com/@json_singh/ubuntu-like-terminal-in-mac-bash-9afe37b09aa
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+# for Brew
+export PATH="/usr/local/bin:$PATH"
+
+# Hides the default login message
+export BASH_SILENCE_DEPRECATION_WARNING=1 
+
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+    xterm-color|*-256color) color_prompt=yes;;
+esac
+
+# Enable colors in bash
+
+export CLICOLOR=1
+export LSCOLORS=GxBxCxDxexegedabagaced
+ 
+# get current git branch
+parse_git_branch() {
+    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+
+# find username@hostname:$ 
+export PS1="\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[0;32m\]\$(parse_git_branch)\[\033[00m\]\$ "
+
+# for bash completion
+export BASH_COMPLETION_COMPAT_DIR="$(brew --prefix)/etc/bash_completion.d" 
+[[ -r "$(brew --prefix)/etc/profile.d/bash_completion.sh" ]] && . "$(brew --prefix)/etc/profile.d/bash_completion.sh"
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+
 export ANDROID_HOME="$HOME/Library/Android/Sdk"
 export PATH="$ANDROID_HOME/tools:$ANDROID_HOME/tools/bin:$ANDROID_HOME/platform-tools:$PATH"
 
@@ -49,7 +84,7 @@ export PROJECT_FUNCTIONS_PATH=$PROJECT_FROM_LOCALHOST/functions/matrix-api/funct
 
 export fdsa=''
 
-export GOOGLE_APPLICATION_CREDENTIALS="$PROJECT_INFRA_PATH/.files/"
+export GOOGLE_APPLICATION_CREDENTIALS="$PROJECT_INFRA_PATH/.files/[file].json"
 
 # problema com [sed]-> illegal byte...
 # export LANG=C
@@ -58,3 +93,4 @@ export GOOGLE_APPLICATION_CREDENTIALS="$PROJECT_INFRA_PATH/.files/"
 
 # problema com ruby pod install
 export LC_ALL=en_US.UTF-8
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
