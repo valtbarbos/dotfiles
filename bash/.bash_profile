@@ -45,6 +45,12 @@ export PATH=$GEM_HOME/bin:$PATH
 . /usr/local/opt/asdf/etc/bash_completion.d/asdf.bash
 
 export LC_ALL=en_US.UTF-8
+
+# some more ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f $HOME/google-cloud-sdk/path.zsh.inc ]; then . $HOME/google-cloud-sdk/path.zsh.inc; fi
 
@@ -60,7 +66,21 @@ alias gtc='gta add -A . && gta commit -m'
 alias gtp='gta push'
 alias gts='gta status'
 
-alias ll='ls -alF'
+# # Android command-line tools
+# export ANDROID_HOME=$HOME/Android/Sdk
+# export ANDROID_SDK=$ANDROID_HOME
+# export ANDROID_SDK_ROOT=$ANDROID_HOME
+# export ANDROID_AVD_HOME=$HOME/.android/avd
+# export PATH=$PATH:$ANDROID_HOME/tools
+# export PATH=$PATH:$ANDROID_HOME/tools/bin
+# export PATH=$PATH:$ANDROID_HOME/cmdline-tools
+# export PATH=$PATH:$ANDROID_HOME/cmdline-tools/bin
+# export PATH=$PATH:$ANDROID_HOME/platform-tools
+
+# # Ionic
+# export CAPACITOR_ANDROID_STUDIO_PATH=/opt/android-studio/bin/studio.sh
+# export PATH=$PATH:$CAPACITOR_ANDROID_STUDIO_PATH
+
 alias usbreset='sudo killall -CONT -c usbd'
 
 export FLUTTER_ROOT="$(asdf where flutter)"
@@ -70,21 +90,43 @@ export PATH="$PATH:$HOME/.pub-cache/bin"
 # export FLUTTER_ROOT="$(which flutter)"
 # export PATH="$PATH:$HOME/development/flutter/bin"
 
+# XCode
+
 export SDKROOT="$(xcrun -sdk macosx --show-sdk-path)"
 
-alias flrefresh="flutter clean && flutter pub get"
-alias flgen="flutter pub run build_runner build"
-alias flgenerate="flutter pub run build_runner build --delete-conflicting-outputs"
+# Flutter
+
+alias fl='flutter'
+alias flupgrade='fl pub upgrade && dart migrate --apply-changes'
+alias flgenerate='flutter pub run build_runner build --delete-conflicting-outputs'
+alias flgen='flutter pub run build_runner build'
+alias flclean='flutter clean'
+alias flpub='flutter pub get'
+alias flrefresh='flclean && flpub'
+alias flcoverage='rm -rf coverage/* && flutter test --coverage && lcov --directory lib/features --remove coverage/lcov.info "*failure.dart" "*_event.dart" "*.freezed.dart" "*_state.dart" -o coverage/new_lcov.info && genhtml coverage/new_lcov.info -o coverage/html && explorer coverage/html/'
+alias flinstall='flrefresh && flutter build apk --release --flavor=dev && flutter install'
+
+# .NET
+
+# export DOTNET_ROOT=$HOME/dotnet
+# export PATH=$PATH:$HOME/dotnet
+
+alias t-hide="PS1='alvert@linux: '"
+
+# Vagrant
+alias vg="vagrant"
+alias vgd="vg destroy"
+alias vgp="vg up"
 
 # Project settings:
-export PROJECT_FROM_LOCALHOST=$HOME/Projects/matrix
+export PROJECT_FROM_LOCALHOST=$HOME/Projects/medkortex
 export PROJECT_INFRA_PATH=$PROJECT_FROM_LOCALHOST/infrastructure
 export PROJECT_PATH=$PROJECT_FROM_LOCALHOST/mobile
-export PROJECT_FUNCTIONS_PATH=$PROJECT_FROM_LOCALHOST/functions/matrix-api/functions
+export PROJECT_FUNCTIONS_PATH=$PROJECT_FROM_LOCALHOST/functions/medkortex-api/functions
 
 export fdsa=''
 
-export GOOGLE_APPLICATION_CREDENTIALS="$PROJECT_INFRA_PATH/.files/[file].json"
+export GOOGLE_APPLICATION_CREDENTIALS="$PROJECT_INFRA_PATH/.files/FILE.json"
 
 # problema com [sed]-> illegal byte...
 # export LANG=C
